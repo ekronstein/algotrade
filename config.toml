@@ -1,0 +1,82 @@
+dev = true
+secrets_file = 'secrets.toml'
+env = 'sandbox'  # 'prod', 'prod_trade', 'sandbox'
+market_order_rel_shift = 0.2
+[default_markets]
+# All of the markets to trade and retrieve updates from for each pair:
+BTC-EUR = ['ftx', 'kraken', 'bitfinex', 'binance']#, 'okcoin']#, 'bsdex']
+XRP-EUR = ['ftx', 'kraken', 'bitfinex', 'binance']
+BTC-CAD = ['kraken']# 'dvchain'],  # can also supprt b2c2
+BTC-USD = ['kraken']#, 'coinbase', 'bitstamp']
+
+
+[adapters]
+use = ['talos']
+# use = ['talos', 'bsdex', 'bitstamp']
+
+[adapters.talos]
+# Markets assigned to this adapter. 
+# None of the markets listed below is allowed to be assigend to another adapter
+markets = [
+    'ftx', 
+    'kraken', 
+    'bitfinex', 
+    # 'binance', 
+    # 'okcoin', 
+    # 'dvchain', 
+    'bitstamp',
+    # 'b2c2'
+]
+aggregate = false  # if true, the markets will be aggregated and the MarketName in quote events qid will become 'talos'
+
+[adapters.talos.quote]
+pairs = ['BTC-EUR', 'BTC-USD']
+sizes = [0.5, 0.5]
+
+[adapters.talos.user]
+sandbox = 'Jonathan Hamann'
+prod = 'Jonathan Hamann'
+prod_trade = 'Boris Ziganke Bot'
+
+[adapters.talos.api_key]
+sandbox = 'BANLFL1OUOWX'
+prod = 'TRASP8OOI5FC'
+prod_trade ='TRAC2A3JT9E6'
+
+[adapters.talos.sub_account]
+sandbox = 'EKRONSTEIN'
+prod_trade = 'Bot Arbitrage'
+
+[adapters.bsdex]
+markets = ['bsdex']
+aggregate = false
+
+[adapters.bsdex.books]
+pairs = ['BTC-EUR', 'BTC-USD']
+
+[adapters.bsdex.user]
+# sandbox = 
+# prod = 
+
+
+[algos]
+[algos.direct_arbitrage]
+max_order_lifetime = 5                  # sec - time for the order to live, afterwhich it is canceled
+quoting_period = 3                      # sec - maximal time waited between placing consecutive buy-sell order pairs
+market_order_timeout = 5                # time to allow a hyper-aggressive order (market order) to live
+market_order_threshold = -20            # bp - below which market instead of limit orders are placed
+arbitrage_threshold = -5                 # bp  threshold for spread (large enough negative value - crossed markets) below which we place orders (spread = (min_ask - max_bid)/mid * 1e4)
+aggressiveness = 0.8
+filetimeformat = "%Y-%m-%d_%H-%M-%S.%f"
+data_dir = "/home/ubuntu/projects/data/direct_arbitrage"
+
+[algos.bbba]
+[algos.bbba.bsdex]
+pairs=["BTC-EUR"]
+min_spread = [9]  # basis points
+ref_margin_bid = [2]  # basis points
+max_spread = [60]  # basis points
+order_amount = [10000]  # quote-leg units
+refresh_amount = [5000]  # quote-leg units
+ref_margin_ask = [2]  # basis points
+top_shift_high = [1]  # quote-leg units

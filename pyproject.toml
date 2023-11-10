@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "algotrade"
+version = "0.1.0"
+description = ""
+authors = ["Elad Kronstein <e.kronstein.ext@bankuas-scheich.de>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+loguru = "^0.6.0"
+pymitter = "^0.4.0"
+websockets = "^10.3"
+toml = "^0.10.2"
+
+[tool.poetry.dev-dependencies]
+colorama = "^0.4.5"
+autoflake = "^1.4"
+isort = "^5.10.1"
+pytest = "^7.1.2"
+coverage = "^6.4.2"
+pytest-cov = "^3.0.0"
+black = "^22.6.0"
+mypy = "^0.971"
+darker = "^1.5.0"
+pytest-asyncio = "^0.19.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+# target-version = ['py36', 'py37', 'py38']
+# skip-string-normalization = true
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+follow_imports = "skip"
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+# [tool.pytest.ini_options]
+# # asyncio_mode = "auto"
+filterwarnings = ["ignore::RuntimeWarning"]
